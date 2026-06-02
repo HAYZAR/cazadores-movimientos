@@ -7,11 +7,12 @@
   <style>
     :root {
       --primary: #1a237e;
-      --accent: #ff6f00;
-      --bg: #f5f7fa;
-      --card: #ffffff;
-      --text: #212121;
-      --muted: #757575;
+      --accent:  #ff6f00;
+      --bg:      #f5f7fa;
+      --card:    #ffffff;
+      --text:    #212121;
+      --muted:   #757575;
+      --green:   #2e7d32;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -21,345 +22,350 @@
       min-height: 100vh;
     }
 
-    /* ── NAV ── */
-    nav {
+    /* ── HEADER ── */
+    header {
       background: var(--primary);
       color: #fff;
-      padding: 14px 24px;
+      padding: 14px 20px;
       display: flex;
       align-items: center;
-      gap: 16px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,.3);
+      gap: 12px;
     }
-    nav .logo { font-size: 1.3rem; font-weight: 700; flex: 1; }
-    nav .logo span { color: var(--accent); }
-    nav a {
-      color: #fff;
-      text-decoration: none;
+    header .logo { font-size: 1.15rem; font-weight: 700; }
+    header .logo span { color: var(--accent); }
+    header .station-badge {
+      margin-left: auto;
+      background: var(--accent);
+      border-radius: 20px;
+      padding: 4px 14px;
       font-size: .85rem;
-      opacity: .85;
-      transition: opacity .2s;
+      font-weight: 700;
     }
-    nav a:hover { opacity: 1; }
 
-    /* ── HOME ── */
-    #home {
+    /* ── NOT FOUND ── */
+    #not-found {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 60px 24px;
+      padding: 80px 24px;
       text-align: center;
     }
-    #home h1 {
-      font-size: 2.4rem;
-      color: var(--primary);
-      margin-bottom: 8px;
-    }
-    #home p {
-      color: var(--muted);
-      max-width: 520px;
-      margin-bottom: 48px;
-      font-size: 1.05rem;
-    }
-    .stations-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 20px;
-      width: 100%;
-      max-width: 800px;
-    }
-    .station-card {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 28px 16px;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: 0 2px 12px rgba(0,0,0,.08);
-      transition: transform .2s, box-shadow .2s;
-      text-decoration: none;
-      color: var(--text);
-      display: block;
-    }
-    .station-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,.15);
-    }
-    .station-card .num {
-      font-size: 2.4rem;
-      font-weight: 800;
-      color: var(--primary);
-      line-height: 1;
-    }
-    .station-card .label {
-      font-size: .8rem;
-      color: var(--muted);
-      margin-top: 6px;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-    }
-    .station-card .badge {
-      display: inline-block;
-      margin-top: 10px;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 20px;
-      padding: 2px 10px;
-      font-size: .72rem;
-      font-weight: 600;
+    #not-found h2 { color: var(--primary); font-size: 1.6rem; margin-bottom: 12px; }
+    #not-found p  { color: var(--muted); max-width: 380px; }
+
+    /* ── STATION ── */
+    #station-view {
+      display: none;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
     }
 
-    /* ── STATION PAGE ── */
-    #station-page {
-      display: none;
-      padding: 32px 20px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    #station-page h2 {
-      font-size: 1.8rem;
-      color: var(--primary);
-      margin-bottom: 6px;
-    }
-    #station-page .subtitle {
-      color: var(--muted);
-      margin-bottom: 32px;
-      font-size: .95rem;
-    }
-    .problems-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-    @media (max-width: 640px) {
-      .problems-container { grid-template-columns: 1fr; }
-      #home h1 { font-size: 1.6rem; }
-    }
-    .problem-card {
+    /* graph card */
+    .graph-card {
       background: var(--card);
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 2px 16px rgba(0,0,0,.09);
+      box-shadow: 0 2px 16px rgba(0,0,0,.10);
+      margin-bottom: 20px;
     }
-    .problem-card .prob-header {
-      background: var(--primary);
-      color: #fff;
-      padding: 10px 16px;
-      font-weight: 600;
-      font-size: .9rem;
+    .graph-card img { width: 100%; display: block; }
+    .graph-card .question {
+      padding: 16px 20px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.45;
+      border-top: 2px solid var(--bg);
+    }
+
+    /* form card */
+    .form-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 24px 20px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.10);
+    }
+    .form-card h3 {
+      font-size: 1rem;
+      color: var(--primary);
+      margin-bottom: 18px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
-    .problem-card .prob-header .num-badge {
-      background: var(--accent);
-      border-radius: 50%;
-      width: 26px; height: 26px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: .8rem;
-      flex-shrink: 0;
+    .field-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
     }
-    .problem-card img {
-      width: 100%;
-      display: block;
+    @media (max-width: 480px) { .field-group { grid-template-columns: 1fr; } }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
     }
-    .problem-card .question {
-      padding: 14px 16px;
-      font-size: .95rem;
+    .field.full { grid-column: 1 / -1; }
+    label {
+      font-size: .78rem;
       font-weight: 600;
-      color: var(--primary);
-      border-top: 2px solid var(--bg);
-      line-height: 1.4;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
     }
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 24px;
-      background: var(--primary);
+    input[type="text"], select, textarea {
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: .95rem;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s;
+      width: 100%;
+    }
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus { border-color: var(--primary); }
+    textarea { resize: vertical; min-height: 90px; }
+
+    .optional-label {
+      font-size: .72rem;
+      color: #bbb;
+      margin-left: 4px;
+      font-style: italic;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .divider {
+      border: none;
+      border-top: 2px solid var(--bg);
+      margin: 18px 0;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--accent);
       color: #fff;
       border: none;
-      border-radius: 8px;
-      padding: 8px 18px;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
-      font-size: .9rem;
-      text-decoration: none;
+      margin-top: 8px;
+      transition: opacity .2s, transform .1s;
     }
-    .back-btn:hover { opacity: .88; }
+    .submit-btn:hover  { opacity: .9; }
+    .submit-btn:active { transform: scale(.98); }
+    .submit-btn:disabled { opacity: .5; cursor: not-allowed; }
 
-    /* ── FOOTER ── */
-    footer {
+    /* success */
+    #success-view {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px;
       text-align: center;
-      padding: 24px;
-      color: var(--muted);
-      font-size: .8rem;
+      max-width: 480px;
+      margin: 0 auto;
     }
+    #success-view .icon { font-size: 4rem; margin-bottom: 16px; }
+    #success-view h2 { color: var(--green); font-size: 1.6rem; margin-bottom: 10px; }
+    #success-view p  { color: var(--muted); font-size: 1rem; line-height: 1.5; }
+    #success-view .station-info {
+      margin-top: 20px;
+      background: #e8f5e9;
+      border-radius: 12px;
+      padding: 14px 20px;
+      color: var(--green);
+      font-weight: 600;
+      font-size: .95rem;
+    }
+
+    /* error msg */
+    .error-msg {
+      display: none;
+      background: #ffebee;
+      color: #c62828;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: .85rem;
+      margin-top: 10px;
+    }
+    .spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid #fff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
-<nav>
+<header>
   <div class="logo">🏃 Cazadores de <span>Movimientos</span></div>
-  <a href="#" onclick="showHome()">Inicio</a>
-  <a href="qr.html" target="_blank">Códigos QR</a>
-</nav>
+  <div class="station-badge" id="header-badge">–</div>
+</header>
 
-<!-- HOME -->
-<section id="home">
-  <h1>Selecciona tu Estación</h1>
-  <p>Escanea el código QR de cada estación o toca el número para ver los problemas. Trabaja en parejas y ¡resuelve el mayor número posible!</p>
-  <div class="stations-grid" id="stations-grid"></div>
+<!-- Sin QR válido -->
+<div id="not-found">
+  <h2>⚠️ Estación no encontrada</h2>
+  <p>Escanea el código QR de una estación para acceder al problema.</p>
+</div>
+
+<!-- Estación activa -->
+<section id="station-view">
+  <div class="graph-card">
+    <img id="problem-img" src="" alt="Gráfica del problema" />
+    <div class="question" id="problem-question"></div>
+  </div>
+
+  <div class="form-card">
+    <h3>📝 Registra tu respuesta</h3>
+
+    <div class="field-group">
+      <div class="field">
+        <label>Estudiante 1 <span style="color:red">*</span></label>
+        <input type="text" id="name1" placeholder="Nombre completo" required />
+      </div>
+      <div class="field">
+        <label>Estudiante 2 <span style="color:red">*</span></label>
+        <input type="text" id="name2" placeholder="Nombre completo" required />
+      </div>
+      <div class="field">
+        <label>Estudiante 3 <span class="optional-label">(opcional)</span></label>
+        <input type="text" id="name3" placeholder="Nombre completo" />
+      </div>
+      <div class="field">
+        <label>Grado <span style="color:red">*</span></label>
+        <select id="grade">
+          <option value="">— Selecciona —</option>
+          <option>10°A</option>
+          <option>10°B</option>
+          <option>10°C</option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="field">
+      <label>Respuesta <span style="color:red">*</span></label>
+      <textarea id="answer" placeholder="Escribe aquí tu respuesta..."></textarea>
+    </div>
+
+    <div class="error-msg" id="error-msg">Por favor completa todos los campos obligatorios.</div>
+
+    <button class="submit-btn" id="submit-btn" onclick="submitAnswer()">
+      Enviar respuesta
+    </button>
+  </div>
 </section>
 
-<!-- STATION PAGE -->
-<section id="station-page">
-  <a class="back-btn" href="#" onclick="showHome(); return false;">← Volver</a>
-  <h2 id="st-title">Estación 1</h2>
-  <p class="subtitle" id="st-subtitle">Analiza las gráficas y responde cada pregunta en tu hoja.</p>
-  <div class="problems-container" id="problems-container"></div>
-</section>
-
-<footer>IED Los Rosales · Física · Cazadores de Movimientos</footer>
+<!-- Éxito -->
+<div id="success-view">
+  <div class="icon">✅</div>
+  <h2>¡Respuesta enviada!</h2>
+  <p>Su respuesta fue registrada correctamente. Continúen con la siguiente estación.</p>
+  <div class="station-info" id="success-info"></div>
+</div>
 
 <script>
-  const STATIONS = [
-    {
-      id: 1,
-      problems: [
-        { img: "images/problem_01.jpg", q: "Indica un momento en que el objeto NO está en movimiento." },
-        { img: "images/problem_02.jpg", q: "¿Cuál es el desplazamiento total durante el intervalo de 0 a 7 segundos?" }
-      ]
-    },
-    {
-      id: 2,
-      problems: [
-        { img: "images/problem_03.jpg", q: "Indica un momento en que el objeto se mueve a su máxima rapidez." },
-        { img: "images/problem_04.jpg", q: "Indica un momento en que el objeto está acelerando." }
-      ]
-    },
-    {
-      id: 3,
-      problems: [
-        { img: "images/problem_05.jpg", q: "¿Cuál es el desplazamiento durante el intervalo de tiempo de 0 a 7 segundos?" },
-        { img: "images/problem_06.jpg", q: "¿Cuál es la velocidad a los 4 segundos?" }
-      ]
-    },
-    {
-      id: 4,
-      problems: [
-        { img: "images/problem_07.jpg", q: "Indica un momento en que el objeto está acelerando." },
-        { img: "images/problem_08.jpg", q: "¿Cuál es la velocidad a los 6 segundos?" }
-      ]
-    },
-    {
-      id: 5,
-      problems: [
-        { img: "images/problem_09.jpg", q: "¿Cuál es la velocidad entre 0 y 1 segundo?" },
-        { img: "images/problem_10.jpg", q: "¿En qué momento el objeto cambia de dirección?" }
-      ]
-    },
-    {
-      id: 6,
-      problems: [
-        { img: "images/problem_11.jpg", q: "Indica un momento en que el objeto está acelerando (aumentando su rapidez)." },
-        { img: "images/problem_12.jpg", q: "¿Cuál es la aceleración representada en el intervalo de tiempo de esta gráfica?" }
-      ]
-    },
-    {
-      id: 7,
-      problems: [
-        { img: "images/problem_13.jpg", q: "¿Cuál es el desplazamiento en el intervalo de tiempo de 0 a 4 segundos?" },
-        { img: "images/problem_14.jpg", q: "¿Cuál es el desplazamiento en el intervalo de tiempo de 0 a 7 segundos?" }
-      ]
-    },
-    {
-      id: 8,
-      problems: [
-        { img: "images/problem_15.jpg", q: "¿Cuál es el desplazamiento total durante el intervalo de 0 a 7 segundos?" },
-        { img: "images/problem_16.jpg", q: "¿Cuál es la distancia total recorrida durante el intervalo de 0 a 7 segundos?" }
-      ]
-    },
-    {
-      id: 9,
-      problems: [
-        { img: "images/problem_17.jpg", q: "¿En qué momento el objeto cambia de dirección?" },
-        { img: "images/problem_18.jpg", q: "Indica un momento en que el objeto se mueve a velocidad constante." }
-      ]
-    },
-    {
-      id: 10,
-      problems: [
-        { img: "images/problem_19.jpg", q: "¿Cuál es la aceleración en el intervalo de tiempo de 0 a 4 segundos?" },
-        { img: "images/problem_20.jpg", q: "¿Cuál es el desplazamiento total en el intervalo de tiempo de 0 a 7 segundos?" }
-      ]
-    }
-  ];
+  // ── CONFIGURACIÓN ──────────────────────────────────────────────
+  // Reemplaza esta URL por la de tu Google Apps Script desplegado
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxjhvjfyhnz7SHj9EqNTZ2VSlNedbax3tU7cnuQyt2fKAVRIgo_chSf-q6TZCuyMMHVSA/exec";
 
-  function buildHome() {
-    const grid = document.getElementById('stations-grid');
-    grid.innerHTML = '';
-    STATIONS.forEach(s => {
-      const a = document.createElement('a');
-      a.className = 'station-card';
-      a.href = '#station/' + s.id;
-      a.innerHTML = `
-        <div class="num">${s.id}</div>
-        <div class="label">Estación</div>
-        <div class="badge">2 problemas</div>
-      `;
-      grid.appendChild(a);
-    });
-  }
+  const STATIONS = {
+    1:  { img: "images/problem_01.jpg", q: "Indica un momento en que el objeto NO está en movimiento." },
+    2:  { img: "images/problem_03.jpg", q: "Indica un momento en que el objeto se mueve a su máxima rapidez." },
+    3:  { img: "images/problem_05.jpg", q: "¿Cuál es el desplazamiento durante el intervalo de tiempo de 0 a 7 segundos?" },
+    4:  { img: "images/problem_07.jpg", q: "Indica un momento en que el objeto está acelerando." },
+    5:  { img: "images/problem_09.jpg", q: "¿Cuál es la velocidad entre 0 y 1 segundo?" },
+    6:  { img: "images/problem_11.jpg", q: "Indica un momento en que el objeto está acelerando (aumentando su rapidez)." },
+    7:  { img: "images/problem_13.jpg", q: "¿Cuál es el desplazamiento en el intervalo de tiempo de 0 a 4 segundos?" },
+    8:  { img: "images/problem_15.jpg", q: "¿Cuál es el desplazamiento total durante el intervalo de 0 a 7 segundos?" },
+    9:  { img: "images/problem_17.jpg", q: "¿En qué momento el objeto cambia de dirección?" },
+    10: { img: "images/problem_19.jpg", q: "¿Cuál es la aceleración en el intervalo de tiempo de 0 a 4 segundos?" }
+  };
+  // ───────────────────────────────────────────────────────────────
 
-  function showStation(id) {
-    const s = STATIONS.find(x => x.id === id);
-    if (!s) { showHome(); return; }
-    document.getElementById('home').style.display = 'none';
-    const sp = document.getElementById('station-page');
-    sp.style.display = 'block';
-    document.getElementById('st-title').textContent = 'Estación ' + s.id;
-    const cont = document.getElementById('problems-container');
-    cont.innerHTML = '';
-    s.problems.forEach((p, i) => {
-      const globalNum = (s.id - 1) * 2 + i + 1;
-      const card = document.createElement('div');
-      card.className = 'problem-card';
-      card.innerHTML = `
-        <div class="prob-header">
-          <div class="num-badge">${globalNum}</div>
-          Problema ${globalNum}
-        </div>
-        <img src="${p.img}" alt="Gráfica problema ${globalNum}" loading="lazy" />
-        <div class="question">${p.q}</div>
-      `;
-      cont.appendChild(card);
-    });
-    window.scrollTo(0, 0);
-  }
+  let currentStation = null;
 
-  function showHome() {
-    document.getElementById('home').style.display = '';
-    document.getElementById('station-page').style.display = 'none';
-    history.pushState(null, '', '#');
-  }
-
-  function router() {
-    const hash = location.hash;
+  function init() {
+    const hash = location.hash; // e.g. #station/3
     const m = hash.match(/^#station\/(\d+)$/);
-    if (m) {
-      showStation(parseInt(m[1]));
-    } else {
-      document.getElementById('home').style.display = '';
-      document.getElementById('station-page').style.display = 'none';
-    }
+    if (!m) return; // shows not-found
+    const id = parseInt(m[1]);
+    const s = STATIONS[id];
+    if (!s) return;
+
+    currentStation = id;
+    document.getElementById('not-found').style.display = 'none';
+    document.getElementById('station-view').style.display = 'block';
+    document.getElementById('header-badge').textContent = 'Estación ' + id;
+    document.getElementById('problem-img').src = s.img;
+    document.getElementById('problem-question').textContent = s.q;
+    document.title = 'Estación ' + id + ' – Cazadores de Movimientos';
   }
 
-  buildHome();
-  window.addEventListener('hashchange', router);
-  router();
+  function submitAnswer() {
+    const name1  = document.getElementById('name1').value.trim();
+    const name2  = document.getElementById('name2').value.trim();
+    const name3  = document.getElementById('name3').value.trim();
+    const grade  = document.getElementById('grade').value;
+    const answer = document.getElementById('answer').value.trim();
+    const errDiv = document.getElementById('error-msg');
+
+    if (!name1 || !name2 || !grade || !answer) {
+      errDiv.style.display = 'block';
+      return;
+    }
+    errDiv.style.display = 'none';
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Enviando...';
+
+    const payload = {
+      estacion: currentStation,
+      pregunta: STATIONS[currentStation].q,
+      estudiante1: name1,
+      estudiante2: name2,
+      estudiante3: name3,
+      grado: grade,
+      respuesta: answer,
+      hora: new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })
+    };
+
+    // Envío usando no-cors (Google Apps Script lo soporta con GET+params)
+    const params = new URLSearchParams(payload).toString();
+    fetch(SCRIPT_URL + '?' + params, { method: 'GET', mode: 'no-cors' })
+      .then(() => {
+        document.getElementById('station-view').style.display = 'none';
+        const sv = document.getElementById('success-view');
+        sv.style.display = 'flex';
+        document.getElementById('success-info').textContent =
+          'Estación ' + currentStation + ' · ' + grade + ' · ' + name1 + (name2 ? ' & ' + name2 : '') + (name3 ? ' & ' + name3 : '');
+      })
+      .catch(() => {
+        btn.disabled = false;
+        btn.innerHTML = 'Enviar respuesta';
+        errDiv.textContent = 'Error de conexión. Verifica tu internet e intenta de nuevo.';
+        errDiv.style.display = 'block';
+      });
+  }
+
+  init();
 </script>
 </body>
 </html>
